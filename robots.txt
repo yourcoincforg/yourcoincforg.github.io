@@ -1,0 +1,7 @@
+# www.robotstxt.org/
+
+# Allow crawling of all content
+User-agent: *
+Disallow: /ad*.html
+Disallow: /splash*.html
+Sitemap: https://www.yourcoin.cf/sitemap.xml
