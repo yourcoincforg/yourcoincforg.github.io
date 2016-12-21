@@ -17,6 +17,7 @@
     "markdown-it-footnote": "^3.0.1",
     "markdown-it-sub": "^1.0.0",
     "object-assign": "^4.1.0",
+    "react-amphtml": "^1.0.2",
     "react-headroom": "^2.1.2",
     "react-helmet": "^3.2.2",
     "react-responsive-grid": "^0.3.3",
@@ -35,7 +36,7 @@
   "main": "n/a",
   "scripts": {
     "build": "gatsby build",
-    "deploy": "gatsby build --prefix-links && gh-pages -d public -b master",
+    "deploy": "gatsby build && gh-pages -d public -b master",
     "develop": "gatsby develop",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
