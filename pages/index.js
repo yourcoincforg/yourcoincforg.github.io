@@ -40,9 +40,9 @@ class AddressForm extends React.Component {
 
     handleRequestClose = () => {
         if (this.state.success) {
-            window.location = 'http://viid.me/qwll5S';
+            window.location = 'http://www.yourcoin.cf/freebitcoin/';
         } else {
-            window.location = 'http://viid.me/qwzYy3';
+            window.location = 'https://www.yourcoin.cf/instructions/';
         }
     }
 
@@ -65,7 +65,7 @@ class AddressForm extends React.Component {
             description: this.state.description,
             btn,
             key,
-            onClose: this.close,
+            onClose: this.handleRequestClose,
             duration: this.state.duration
         });
     }
