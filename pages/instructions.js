@@ -21,31 +21,6 @@ import 'antd/dist/antd.less'
 const SubMenu = Menu.SubMenu
 const Step = Steps.Step
 
-const steps = [
-    {
-        title: 'Disable Adblocker',
-        content: 'If you are using an extension to block ads. Whitelist YourCoin on your extension options to allow ads on it or disable it entirely while surfing on YourCoin.'
-    }, {
-        title: 'Find YourCoin',
-        content: "Go to Google Site and Find YourCoin searching for keywords like ' yourcoin.cf ' or other similar. Follow link to YourCoin !"
-    }, {
-        title: 'Enter your Address',
-        content: 'Find the input text field and enter your Bitcoin address.'
-    }, {
-        title: 'Validate',
-        content: "Find the 'Next Step' Button and click on it to Validate your Bitcoin Address."
-    }, {
-        title: 'Complete Captcha',
-        content: 'Fill the input with the Captcha on display and click on Claim button to Validate.'
-    }, {
-        title: 'Repeat',
-        content: 'Repeat the steps to claim more bitcoins.'
-    }, {
-        title: 'Withdraw',
-        content: 'Exchange your chips and Withdraw your free bitcoins to your wallet.'
-    }
-];
-
 export default class Instructions extends React.Component {
 
     constructor(props) {
@@ -57,13 +32,38 @@ export default class Instructions extends React.Component {
     }
 
     handleNext = () => {
-        if (this.state.step < steps.length - 1) {
+        if (this.state.step < this.steps.length - 1) {
             const newstep = this.state.step + 1;
             this.setState({step: newstep});
         } else {
             window.location = 'http://viid.me/qr47dE'
         }
     }
+
+    steps = [
+        {
+            title: 'Disable Adblocker',
+            content: 'If you are using an extension to block ads. Whitelist YourCoin on your extension options to allow ads on it or disable it entirely while surfing on YourCoin.'
+        }, {
+            title: 'Find YourCoin',
+            content: "Go to Google Site and Find YourCoin searching for keywords like ' yourcoin.cf ' or other similar. Follow link to YourCoin !"
+        }, {
+            title: 'Enter your Address',
+            content: 'Find the input text field and enter your Bitcoin address.'
+        }, {
+            title: 'Validate',
+            content: "Find the 'Next Step' Button and click on it to Validate your Bitcoin Address."
+        }, {
+            title: 'Complete Captcha',
+            content: 'Fill the input with the Captcha on display and click on Claim button to Validate.'
+        }, {
+            title: 'Repeat',
+            content: 'Repeat the steps to claim more bitcoins.'
+        }, {
+            title: 'Withdraw',
+            content: 'Exchange your chips and Withdraw your free bitcoins to your wallet.'
+        }
+    ]
 
     render() {
         return (
@@ -116,13 +116,13 @@ export default class Instructions extends React.Component {
                                 <br/>
 
                                 <Steps size="small" current={this.state.step}>
-                                    {steps.map(item => <Step key={item.title} title={item.title}/>)}
+                                    {this.steps.map(item => <Step key={item.title} title={item.title}/>)}
                                 </Steps>
-                                <div className="steps-content">{steps[this.state.step].content}</div>
+                                <div className="steps-content">{this.steps[this.state.step].content}</div>
                                 <div className="steps-action">
-                                    {this.state.step < steps.length - 1 && <Button type="primary" onClick={() => this.handleNext()}>Next</Button>
+                                    {this.state.step < this.steps.length - 1 && <Button type="primary" onClick={() => this.handleNext()}>Next</Button>
 }
-                                    {this.state.step === steps.length - 1 && <Button type="primary" onClick={() => this.handleNext()}>Read Again</Button>
+                                    {this.state.step === this.steps.length - 1 && <Button type="primary" onClick={() => this.handleNext()}>Read Again</Button>
 }
                                 </div>
                             </div>
