@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "author": "Your coin <yc@yourcoin.cf>",
   "dependencies": {
-    "antd": "^2.5.2",
     "front-matter": "^2.1.1",
     "gatsby": "^0.12.20",
     "highlight.js": "^9.8.0",
