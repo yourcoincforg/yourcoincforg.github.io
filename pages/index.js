@@ -22,187 +22,6 @@ const SubMenu = Menu.SubMenu
 const Step = Steps.Step
 const FormItem = Form.Item
 
-class AddressForm extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            step: 0,
-            message: 'Success!',
-            description: 'initial',
-            success: false,
-            type: 'success',
-            action: 'Close',
-            duration: 5
-        };
-    }
-
-    handleRequestClose = () => {
-        if (this.state.success) {
-            window.location = 'http://www.yourcoin.cf/freebitcoin/';
-        } else {
-            window.location = 'https://www.yourcoin.cf/instructions/';
-        }
-    }
-
-    close = () => {
-        console.log('Notification was closed. Either the close button was clicked or duration time elapsed.');
-    }
-
-    openNotification = () => {
-        const key = `open${Date.now()}`;
-        const btnClick = () => {
-            notification.close(key);
-        };
-        const btn = (
-            <Button type="primary" size="small" onClick={btnClick}>
-                {this.state.action}
-            </Button>
-        );
-        notification[this.state.type]({
-            message: this.state.message,
-            description: this.state.description,
-            btn,
-            key,
-            onClose: this.handleRequestClose,
-            duration: this.state.duration
-        });
-    }
-
-    handleNext = () => {
-        console.log('handle Next');
-        if (this.state.step) {
-            console.log('step defined');
-        }
-
-        const referrer = document.referrer.split('/')[2]
-        if (referrer && (referrer.indexOf('google') > 0)) {
-            this.verifyAddress();
-        } else {
-            this.setState({
-                type: 'warning',
-                message: 'Warning!',
-                description: 'To activate your request enter site comming from google',
-                action: 'Read Instructions',
-                success: false,
-                duration: 10
-            }, () => this.openNotification());
-        }
-    }
-
-    handle_submit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
-            console.log(err);
-            if (!err) {
-                console.log('Received values of form: ', values);
-                this.verifyAddress();
-                //this.handleNext();
-            } else {
-                this.setState({
-                    type: 'warning',
-                    message: 'Warning!',
-                    description: 'To activate your request enter a Valid bitcoin Address',
-                    action: 'Read Instructions',
-                    success: false,
-                    duration: 10
-                }, () => this.openNotification());
-            }
-        });
-    }
-
-    verifyAddress = () => {
-        const s = this.props.form.getFieldValue('username');
-
-        fetch(config.apiurl + 'address', {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                'Accept': 'application/vnd.faucet.v1+json'
-            },
-            method: "POST",
-            body: 'username=' + encodeURIComponent(s).replace(/%20/g, '+')
-        }).then(response => {
-            console.log(response);
-            if (response.status === 202) {
-
-                this.setState({
-                    step: 1,
-                    type: 'success',
-                    success: true,
-                    duration: 5,
-                    message: 'Success!',
-                    description: 'Redirecting to Step 2',
-                    action: 'Step 2'
-                }, () => this.openNotification());
-
-            } else {
-                var error = new Error(response.statusText)
-                error.response = response
-                throw error
-            }
-        }).catch(error => {
-            console.log(error);
-            this.setState({
-                success: false,
-                duration: 10,
-                type: 'error',
-                message: 'Error !',
-                description: 'Try again later !',
-                action: 'Retry !'
-            }, () => this.openNotification());
-        });
-
-    }
-
-    render() {
-        const {getFieldDecorator} = this.props.form;
-        const formItemLayout = {
-            labelCol: {
-                span: 6
-            },
-            wrapperCol: {
-                span: 14
-            }
-        };
-        return (
-            <Form onSubmit={this.handle_submit} method="post">
-                <div className="steps-content">
-                    <FormItem {...formItemLayout} label={(
-                        <span>
-                            Address&nbsp;
-                            <Tooltip title="Enter your bitcoin address">
-                                <Icon type="question-circle-o"/>
-                            </Tooltip>
-                        </span>
-                    )} hasFeedback>
-                        {getFieldDecorator('username', {
-                            rules: [
-                                {
-                                    min: 26,
-                                    max: 35,
-                                    message: 'Must have a length between 26 and 35'
-                                }, {
-                                    pattern: RegExp('^[13][a-km-zA-HJ-NP-Z1-9]+$'),
-                                    message: 'Must Start with 1 or 3 with uppercase letter "O", uppercase letter "I", lowercase letter "l", and the number "0" not allowed!'
-                                }, {
-                                    required: true,
-                                    message: 'Please input your bitcoin address!'
-                                }
-                            ]
-                        })(
-                            <Input addonBefore={< Icon type = "user" />} autoComplete="username" id="username" name="username" type="text" placeholder="1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2"/>
-                        )}
-                    </FormItem>
-                </div>
-                <div className="steps-action">
-                    <Button type="primary" htmlType="submit">Next Step</Button>
-                </div>
-            </Form>
-        )
-    }
-}
-
 export default class Index extends React.Component {
 
     constructor(props) {
@@ -214,7 +33,7 @@ export default class Index extends React.Component {
     }
 
     render() {
-        AddressForm = Form.create({})(AddressForm);
+
         return (
             <div>
                 {heads()}
@@ -372,7 +191,6 @@ export default class Index extends React.Component {
                                         <Step title="Claim"/>
                                     </Steps>
 
-                                    <AddressForm/>
                                 </div>
                             </div>
                         </div>
