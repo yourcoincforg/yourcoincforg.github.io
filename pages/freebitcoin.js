@@ -161,7 +161,7 @@ export default class Freebitcoin extends React.Component {
                                 <Menu.Item key="1">Instructions</Menu.Item>
                                 <Menu.Item key="freebitcoin">Free bitcoins</Menu.Item>
                             </SubMenu>
-                            <SubMenu key="faucets_list" title={< span > <Icon type="laptop"/>Faucets List < /span>}>
+                            <SubMenu key="faucets_list" title={< span > <Icon type="folder"/>Faucets List < /span>}>
                                 <Menu.Item key="5">Highest Paying</Menu.Item>
                                 <Menu.Item key="6">New Faucets</Menu.Item>
                                 <Menu.Item key="7">Not Paying</Menu.Item>
