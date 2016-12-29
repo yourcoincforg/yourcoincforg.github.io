@@ -6,12 +6,12 @@ import Headroom from 'react-headroom'
 import '../css/markdown-styles'
 
 import { rhythm } from '../utils/typography'
-// import amphtml from 'react-amphtml'
-//
-// const ampScripts = [];
-// const addScript = script => ampScripts.push(script);
-//
-// const AmpAnalytics = amphtml('analytics', addScript);
+import amphtml from 'react-amphtml'
+
+const ampScripts = [];
+const addScript = script => ampScripts.push(script);
+
+const AmpAnalytics = amphtml('analytics', addScript);
 
 
 module.exports = React.createClass({
@@ -36,7 +36,7 @@ module.exports = React.createClass({
         </section>
       </article>
 
-        {/* <AmpAnalytics type="googleanalytics" id="analytics1">
+        <AmpAnalytics type="googleanalytics" id="analytics1">
           <script type="application/json" dangerouslySetInnerHTML={{ __html: `
           {
             "vars": {
@@ -101,7 +101,7 @@ module.exports = React.createClass({
             }
           ` }}>
           </script>
-        </AmpAnalytics> */}
+        </AmpAnalytics>
       </div>
     )
   },

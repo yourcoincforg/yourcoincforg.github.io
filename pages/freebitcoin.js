@@ -41,12 +41,12 @@ export default class Freebitcoin extends React.Component {
     handleRequestClose = () => {
 
         if (this.state.success) {
-            window.location = 'http://viid.me/qwlD69';
+            window.location = 'http://viid.me/qrjoLM';
         } else {
             if (this.state.failure === 428) {
-                window.location = 'http://viid.me/qwzYy3';
+                window.location = 'http://viid.me/qr47dE';
             } else {
-                window.location = 'http://viid.me/qwll5S';
+                window.location = 'http://viid.me/qt1rAb';
             }
         }
     }
