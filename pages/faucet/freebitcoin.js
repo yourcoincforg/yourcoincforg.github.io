@@ -1,8 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router'
 import {prefixLink} from 'gatsby-helpers'
-import heads from '../utils/head'
-import styles from './index.css'
+import heads from '../../utils/head'
+import styles from './../index.css'
 import Helmet from 'react-helmet'
 import {config} from 'config'
 import {
@@ -21,6 +21,11 @@ import 'antd/dist/antd.less'
 const SubMenu = Menu.SubMenu
 const Step = Steps.Step
 const FormItem = Form.Item
+
+exports.data = {
+  title: 'Claim your free coin',
+  key: 'freebitcoin'
+}
 
 export default class Freebitcoin extends React.Component {
 

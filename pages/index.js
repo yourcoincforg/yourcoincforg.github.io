@@ -22,6 +22,12 @@ const SubMenu = Menu.SubMenu
 const Step = Steps.Step
 const FormItem = Form.Item
 
+exports.data = {
+  title: 'Home',
+  key: 'qrjoLM',
+  published_time: '2017-10-01T12:10Z'
+}
+
 class AddressForm extends React.Component {
 
     constructor(props) {
