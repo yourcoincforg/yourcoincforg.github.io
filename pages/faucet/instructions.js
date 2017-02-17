@@ -22,6 +22,7 @@ const SubMenu = Menu.SubMenu
 const Step = Steps.Step
 
 exports.data = {
+  menu: "Instructions",
   title: 'Get Free Bitcoin instructions',
   key: 'instructions'
 }

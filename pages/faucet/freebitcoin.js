@@ -23,6 +23,7 @@ const Step = Steps.Step
 const FormItem = Form.Item
 
 exports.data = {
+  menu: "Free Bitcoin",
   title: 'Claim your free coin',
   key: 'freebitcoin'
 }

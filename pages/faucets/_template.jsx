@@ -4,7 +4,7 @@ import {Link} from 'react-router'
 import {prefixLink} from 'gatsby-helpers'
 import Headroom from 'react-headroom'
 import convertPages from '../../utils/url'
-import CoinMenu from '../../utils/coinmenu'
+import {CoinMenu, CoinBreadcrumbItem, folderMeta} from '../../utils/coinmenu'
 import '../../css/markdown-styles'
 
 import {rhythm} from '../../utils/typography'
@@ -44,6 +44,14 @@ module.exports = React.createClass({
         }
         return undefined;
     },
+    folders() {
+        const loc = this.props.location.pathname;
+        const ps = loc.substring(1, loc.length - 1);
+        const path = ps.length > 1
+            ? ps.split("/")
+            : [""];
+        return path;
+    },
     urls() {
         return convertPages(this.props.route.pages);
     },
@@ -65,10 +73,11 @@ module.exports = React.createClass({
         }
     },
     render() {
-        console.log(this.props);
-        console.log(this.page().title);
-        console.log(this.page().key);
-        console.log(this.urls());
+        const page = this.page();
+        const folders = this.folders();
+        const fl = folders.length;
+        const sl = folders.slice(0, fl - 1);
+        console.log(sl);
         return (
             <div>
                 <article className="window-frame focus">
@@ -85,14 +94,22 @@ module.exports = React.createClass({
                                 <div className="ant-layout-logo">
                                     <span>YOUR COIN</span>
                                 </div>
-                                <CoinMenu selectedKeys={[this.page().key]} doKeys={[]} data={this.mock()}/>
+                                <CoinMenu selectedKeys={[page.key]} doKeys={sl.map((name) => folderMeta[name].key)} data={this.urls()}/>
                             </aside>
                             <div className="ant-layout-main">
-                                <div className="ant-layout-header"></div>
+                                <div className="ant-layout-header">
+                                    <h1>{page.title}</h1>
+                                </div>
                                 <div className="ant-layout-breadcrumb">
                                     <Breadcrumb>
                                         <Breadcrumb.Item href="http://viid.me/qrjoLM">
                                             <Icon type="home"/>
+                                        </Breadcrumb.Item>
+                                        {fl > 1 && sl.map((name,index) => (
+                                          <CoinBreadcrumbItem key={index} name={name} />
+                                        ))}
+                                        <Breadcrumb.Item>
+                                            <span>{page.menu}</span>
                                         </Breadcrumb.Item>
                                     </Breadcrumb>
                                 </div>
@@ -102,7 +119,7 @@ module.exports = React.createClass({
                                     </div>
                                 </div>
                                 <div className="ant-layout-footer">
-                                    YourCoin © 2016
+                                    YourCoin © 2017
                                 </div>
                             </div>
                         </div>

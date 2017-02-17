@@ -17,7 +17,7 @@ import 'antd/dist/antd.less'
 
 const SubMenu = Menu.SubMenu;
 
-const folderMeta = {
+export const folderMeta = {
     faucet: {
         key: 'faucet',
         icon: "user",
@@ -30,30 +30,37 @@ const folderMeta = {
     }
 }
 
-const CoinSubMenu = ({name, folder}) => {
-    console.log(name);
-    console.log(folder);
-    console.log(folderMeta[name].key);
+export const CoinBreadcrumbItem = ({name, ...rest}) => {
+  return (
+    <Breadcrumb.Item key={folderMeta[name].key} {...rest}>
+        <Icon type={folderMeta[name].icon}/>
+        <span>{folderMeta[name].title}</span>
+    </Breadcrumb.Item>
+  )
+}
+
+const CoinSubMenu = ({
+    name,
+    folder,
+    ...rest
+}) => {
     return (
-        <SubMenu key={folderMeta[name].key} title="Faucet" >
+        <SubMenu key={folderMeta[name].key} title={< span > <Icon type={folderMeta[name].icon}/>
+            {folderMeta[name].title} < /span>} {...rest}>
             {folder.hasOwnProperty("pages") && folder.pages.map((page) => (
-                <Menu.Item key={page.data.key}>{page.data.title}</Menu.Item>
+                <Menu.Item key={page.data.key}>{page.data.menu}</Menu.Item>
             ))}
         </SubMenu>
     )
 }
 
-const CoinMenu = ({selectedKeys, doKeys, data}) => {
+export const CoinMenu = ({selectedKeys, doKeys, data}) => {
     return (
         <Menu mode="inline" theme="dark" defaultSelectedKeys={selectedKeys} defaultOpenKeys={doKeys}>
             {data.hasOwnProperty("pages") && data.pages.map((page) => (
                 <Menu.Item key={page.data.key}>{page.data.title}</Menu.Item>
             ))}
-            {data.hasOwnProperty("folders") && Object.keys(data.folders).map((f, index) => (
-                <CoinSubMenu key={index} name={f} folder={data.folders[f]}/>
-            ))}
+            {data.hasOwnProperty("folders") && Object.keys(data.folders).map((f, index) => (<CoinSubMenu key={index} name={f} folder={data.folders[f]}/>))}
         </Menu>
     )
 }
-
-export default CoinMenu

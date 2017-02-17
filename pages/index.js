@@ -23,6 +23,7 @@ const Step = Steps.Step
 const FormItem = Form.Item
 
 exports.data = {
+  menu: "Home",
   title: 'Home',
   key: 'qrjoLM',
   published_time: '2017-10-01T12:10Z'

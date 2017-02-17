@@ -18,6 +18,7 @@ import {
 import 'antd/dist/antd.less'
 
 exports.data = {
+  menu: "Highest paying",
   title: 'Highest paying faucets',
   key: 'highest'
 }
@@ -113,8 +114,6 @@ export default class Highest extends React.Component {
                 ]}/>
                 <meta itemProp="lastReviewed" content="2017-10-01T12:10Z"/>
                 <div>
-                    <h1>Highest paying faucets</h1>
-
                     <p>
                         <a href="http://9m.no/븇꾴">
                             <img src="/images/7c735c3a509d449.png" id="addressimg"/>
