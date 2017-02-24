@@ -2,25 +2,17 @@ import React from 'react'
 import {Link} from 'react-router'
 import {prefixLink} from 'gatsby-helpers'
 import heads from '../../utils/head'
+import {highestData} from '../../utils/highestdata'
 import styles from './../index.css'
 import Helmet from 'react-helmet'
 import {config} from 'config'
-import {
-    Breadcrumb,
-    Icon,
-    Button,
-    Form,
-    Tooltip,
-    Input,
-    Steps,
-    notification
-} from 'antd'
+import {Table, Icon, Button, notification} from 'antd'
 import 'antd/dist/antd.less'
 
 exports.data = {
-  menu: "Highest paying",
-  title: 'Highest paying faucets',
-  key: 'highest'
+    menu: "Highest paying",
+    title: 'Highest paying faucets',
+    key: 'highest'
 }
 
 export default class Highest extends React.Component {
@@ -29,9 +21,77 @@ export default class Highest extends React.Component {
         super(props);
 
         this.state = {
-            step: 0
+            info: {},
+            message: 'Success!',
+            description: 'initial',
+            success: false,
+            type: 'success',
+            action: 'Close',
+            duration: 5,
+            url: ''
         };
     }
+
+    handleRequestClose = () => {
+        if (this.state.success) {
+            window.location = this.state.url;
+        }
+    }
+
+    clickHandler = (url) => {
+        this.setState({
+            duration: 2,
+            success: true,
+            type: 'success',
+            message: 'Success !',
+            description: "Redirecting",
+            action: 'GO',
+            url: url
+        }, () => this.openNotification());
+    }
+
+    openNotification = () => {
+        const key = `open${Date.now()}`;
+        const btnClick = () => {
+            notification.close(key);
+        };
+        const btn = (
+            <Button type="primary" size="small" onClick={btnClick}>
+                {this.state.action}
+            </Button>
+        );
+        notification[this.state.type]({
+            message: this.state.message,
+            description: this.state.description,
+            btn,
+            key,
+            onClose: this.handleRequestClose,
+            duration: this.state.duration
+        });
+    }
+
+    columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+            sorter: (a, b) => a.name.localeCompare(b.name)
+        }, {
+            title: 'Interval',
+            dataIndex: 'interval',
+            key: 'interval'
+        }, {
+            title: 'Payment',
+            dataIndex: 'payment',
+            key: 'payment',
+            sorter: (a, b) => a.payment.localeCompare(b.payment)
+        }, {
+            title: '',
+            dataIndex: 'url',
+            key: 'url',
+            render: url => <Button type="primary" shape="circle" icon="link" onClick={() => this.clickHandler(url)}/>
+        }
+    ]
 
     render() {
         return (
@@ -106,10 +166,6 @@ export default class Highest extends React.Component {
                         "src": "//cdn.ampproject.org/v0/amp-analytics-0.1.js",
                         "async": "async",
                         "custom-element": "amp-analytics"
-                    }, {
-                        "src": "//cdn.polyfill.io/v2/polyfill.js?features=fetch,Promise&gated=1",
-                        "async": "async",
-                        "type": "text/javascript"
                     }
                 ]}/>
                 <meta itemProp="lastReviewed" content="2017-10-01T12:10Z"/>
@@ -119,6 +175,11 @@ export default class Highest extends React.Component {
                             <img src="/images/7c735c3a509d449.png" id="addressimg"/>
                         </a>
                     </p>
+
+                    <Table columns={this.columns} pagination={{
+                        showQuickJumper: true,
+                        showSizeChanger: true
+                    }} rowKey='name' dataSource={highestData}/>
 
                     <br/>
                 </div>

@@ -2,25 +2,17 @@ import React from 'react'
 import {Link} from 'react-router'
 import {prefixLink} from 'gatsby-helpers'
 import heads from '../../utils/head'
+import {badData} from '../../utils/baddata'
 import styles from './../index.css'
 import Helmet from 'react-helmet'
 import {config} from 'config'
-import {
-    Breadcrumb,
-    Icon,
-    Button,
-    Form,
-    Tooltip,
-    Input,
-    Steps,
-    notification
-} from 'antd'
+import {Table, Icon, Button, notification} from 'antd'
 import 'antd/dist/antd.less'
 
 exports.data = {
-  menu: "Not paying",
-  title: 'NOT paying',
-  key: 'bad'
+    menu: "Not paying",
+    title: 'NOT paying',
+    key: 'bad'
 }
 
 export default class Bad extends React.Component {
@@ -29,9 +21,68 @@ export default class Bad extends React.Component {
         super(props);
 
         this.state = {
-            step: 0
+            info: {},
+            message: 'Success!',
+            description: 'initial',
+            success: false,
+            type: 'success',
+            action: 'Close',
+            duration: 5,
+            url: ''
         };
     }
+
+    handleRequestClose = () => {
+        if (this.state.success) {
+            window.location = this.state.url;
+        }
+    }
+
+    clickHandler = (url) => {
+        this.setState({
+            duration: 2,
+            success: true,
+            type: 'success',
+            message: 'Success !',
+            description: "Redirecting",
+            action: 'GO',
+            url: url
+        }, () => this.openNotification());
+    }
+
+    openNotification = () => {
+        const key = `open${Date.now()}`;
+        const btnClick = () => {
+            notification.close(key);
+        };
+        const btn = (
+            <Button type="primary" size="small" onClick={btnClick}>
+                {this.state.action}
+            </Button>
+        );
+        notification[this.state.type]({
+            message: this.state.message,
+            description: this.state.description,
+            btn,
+            key,
+            onClose: this.handleRequestClose,
+            duration: this.state.duration
+        });
+    }
+
+    columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+            sorter: (a, b) => a.name.localeCompare(b.name)
+        }, {
+            title: '',
+            dataIndex: 'url',
+            key: 'url',
+            render: url => <Button type="primary" shape="circle" icon="link" onClick={() => this.clickHandler(url)}/>
+        }
+    ]
 
     render() {
         return (
@@ -121,6 +172,10 @@ export default class Bad extends React.Component {
                     </p>
 
                     <br/>
+                    <Table columns={this.columns} pagination={{
+                        showQuickJumper: true,
+                        showSizeChanger: true
+                    }} rowKey='name' dataSource={badData}/>
                 </div>
 
             </div>

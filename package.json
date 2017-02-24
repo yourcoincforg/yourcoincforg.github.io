@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "author": "Your coin <yc@yourcoin.cf>",
   "dependencies": {
-    "antd": "^2.7.1",
+    "antd": "^2.7.2",
+    "babel-plugin-import": "^1.1.0",
     "front-matter": "^2.1.1",
     "gatsby": "^0.12.20",
     "highlight.js": "^9.8.0",
@@ -23,10 +24,10 @@
     "react-helmet": "^3.2.2",
     "react-responsive-grid": "^0.3.3",
     "react-typography": "^0.15.0",
+    "reqwest": "^2.0.5",
     "toml-js": "0.0.8",
     "typography": "^0.15.0",
     "typography-plugin-code": "^0.15.0",
-    "babel-plugin-import": "^1.1.0",
     "urijs": "^1.18.4"
   },
   "devDependencies": {

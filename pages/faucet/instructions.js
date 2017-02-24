@@ -22,9 +22,9 @@ const SubMenu = Menu.SubMenu
 const Step = Steps.Step
 
 exports.data = {
-  menu: "Instructions",
-  title: 'Get Free Bitcoin instructions',
-  key: 'instructions'
+    menu: "Instructions",
+    title: 'Get Free Bitcoin instructions',
+    key: 'instructions'
 }
 
 export default class Instructions extends React.Component {
@@ -82,63 +82,18 @@ export default class Instructions extends React.Component {
                     }
                 ]}/>
                 <meta itemProp="lastReviewed" content="2016-21-12T16:10Z"/>
-
-                <div className="ant-layout-aside">
-                    <aside className="ant-layout-sider">
-                        <div className="ant-layout-logo"></div>
-                        <Menu mode="inline" theme="dark" defaultSelectedKeys={['instructions']} defaultOpenKeys={['faucet']}>
-                            <Menu.Item key="qrjoLM">Home</Menu.Item>
-                            <SubMenu key="faucet" title={< span > <Icon type="user"/>Faucet < /span>}>
-                                <Menu.Item key="instructions">Instructions</Menu.Item>
-                                <Menu.Item key="freebitcoin">Free bitcoins</Menu.Item>
-                            </SubMenu>
-                            <SubMenu key="faucets_list" title={< span > <Icon type="laptop"/>Faucets List < /span>}>
-                                <Menu.Item key="5">Highest Paying</Menu.Item>
-                                <Menu.Item key="6">New Faucets</Menu.Item>
-                                <Menu.Item key="7">Not Paying</Menu.Item>
-                            </SubMenu>
-                        </Menu>
-                    </aside>
-                    <div className="ant-layout-main">
-                        <div className="ant-layout-header"></div>
-                        <div className="ant-layout-breadcrumb">
-                            <Breadcrumb>
-                                <Breadcrumb.Item href="http://viid.me/qrjoLM">
-                                    <Icon type="home"/>
-                                </Breadcrumb.Item>
-                                <Breadcrumb.Item>
-                                    <Icon type="user"/>
-                                    <span>Faucet</span>
-                                </Breadcrumb.Item>
-                                <Breadcrumb.Item>
-                                    <span>Instructions</span>
-                                </Breadcrumb.Item>
-                            </Breadcrumb>
-                        </div>
-                        <div className="ant-layout-container">
-                            <div className="ant-layout-content">
-
-                                <h1>Get Free Bitcoin instructions</h1>
-                                <br/>
-
-                                <Steps size="small" current={this.state.step}>
-                                    {this.steps.map(item => <Step key={item.title} title={item.title}/>)}
-                                </Steps>
-                                <div className="steps-content">{this.steps[this.state.step].content}</div>
-                                <div className="steps-action">
-                                    {this.state.step < this.steps.length - 1 && <Button type="primary" onClick={() => this.handleNext()}>Next</Button>
+                <div>
+                    <Steps size="small" current={this.state.step}>
+                        {this.steps.map(item => <Step key={item.title} title={item.title}/>)}
+                    </Steps>
+                    <div className="steps-content">{this.steps[this.state.step].content}</div>
+                    <div className="steps-action">
+                        {this.state.step < this.steps.length - 1 && <Button type="primary" onClick={() => this.handleNext()}>Next</Button>
 }
-                                    {this.state.step === this.steps.length - 1 && <Button type="primary" onClick={() => this.handleNext()}>Read Again</Button>
+                        {this.state.step === this.steps.length - 1 && <Button type="primary" onClick={() => this.handleNext()}>Read Again</Button>
 }
-                                </div>
-                            </div>
-                        </div>
-                        <div className="ant-layout-footer">
-                            YourCoin © 2016
-                        </div>
                     </div>
                 </div>
-
             </div>
 
         )

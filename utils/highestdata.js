@@ -1,0 +1,122 @@
+export const highestData = [
+    {
+        name: 'GOLDSDAY',
+        interval: 'R/P10M',
+        payment: 'ePay',
+        url: 'http://9m.no/峂𒁌',
+        security: 'Solve Media',
+        payout: '100',
+        coin: 'Bitcoin'
+    }, {
+        name: 'FREEBITCOIN',
+        interval: 'R/P60M',
+        payment: 'Directly',
+        url: 'http://9m.no/𑚔텫',
+        security: 'Solve Media / ReCaptcha',
+        coin: 'Bitcoin'
+    }, {
+        name: 'MOONBIT',
+        interval: 'R/P5M',
+        payment: 'Xapo',
+        url: 'http://9m.no/嚍鮄',
+        security: 'ReCaptcha',
+        payout: '275',
+        coin: 'Bitcoin'
+    }, {
+        name: 'GRIFODEBITCOIN',
+        interval: 'R/P15M',
+        payment: 'Xapo',
+        url: 'http://9m.no/돺∕',
+        security: 'Solve Media',
+        payout: '50',
+        coin: 'Bitcoin'
+    }, {
+        name: 'KICKASSTRAFFIC',
+        interval: 'R/P24H',
+        payment: 'ePay',
+        url: 'http://9m.no/콟픧',
+        security: 'ReCaptcha',
+        payout: '100',
+        coin: 'Bitcoin'
+    }, {
+        name: 'KIIXA',
+        interval: 'R/P15M',
+        payment: 'Xapo',
+        url: 'http://9m.no/䅞𝞤',
+        security: 'Solve Media',
+        payout: '45',
+        coin: 'Bitcoin'
+    }, {
+        name: 'ROSECOINS',
+        interval: 'R/P5M',
+        payment: 'FaucetBox',
+        url: 'http://9m.no/ᕇ㶬',
+        security: 'Solve Media',
+        payout: '45',
+        coin: 'Bitcoin'
+}, {
+        name: 'GENTLEBITCOIN',
+        interval: 'R/P30M',
+        payment: 'Xapo',
+        url: 'http://9m.no/־甍',
+        security: 'ReCaptcha',
+        payout: '50',
+        coin: 'Bitcoin'
+    }, {
+        name: 'FAUCETGO',
+        interval: 'R/P5M',
+        payment: 'Directly',
+        url: 'http://9m.no/𐢬縟',
+        security: 'ReCaptcha',
+        payout: '250',
+        coin: 'Bitcoin'
+    }, {
+        name: 'FREEBTC',
+        interval: 'R/P60M',
+        payment: 'Xapo',
+        url: 'http://9m.no/䃰ﲠ',
+        coin: 'Bitcoin'
+    }, {
+        name: 'GOLDCOINJAR',
+        interval: 'R/P60M',
+        payment: 'Xapo',
+        url: 'http://9m.no/亿攲',
+        coin: 'Bitcoin'
+    }, {
+        name: 'KENOBITCOIN',
+        interval: 'No interval',
+        payment: 'Xapo',
+        url: 'http://9m.no/똳ֿ',
+        coin: 'Bitcoin'
+    }, {
+        name: 'FIELDBITCOINS',
+        interval: 'R/P5M',
+        payment: 'Xapo',
+        url: 'http://9m.no/🚗츄',
+        coin: 'Bitcoin'
+    }, {
+        name: 'GANABITSDIARIOS',
+        interval: 'R/P50M',
+        payment: 'Xapo',
+        url: 'http://9m.no/㚡썬',
+        coin: 'Bitcoin'
+    }, {
+        name: 'SCRATCH4SATOSHIS',
+        interval: 'R/P60M',
+        payment: 'Xapo',
+        url: 'http://9m.no/齡𖭲',
+        coin: 'Bitcoin'
+    }, {
+        name: 'FACILBITS',
+        interval: 'R/P20M',
+        payment: 'Xapo',
+        url: 'http://9m.no/쌘분',
+        coin: 'Bitcoin'
+    }, {
+        name: '1FAUCET',
+        interval: 'R/P30M',
+        payment: 'Xapo',
+        url: 'http://9m.no/鷥涑',
+        coin: 'Bitcoin'
+    }
+];

@@ -30,13 +30,16 @@ export const folderMeta = {
     }
 }
 
-export const CoinBreadcrumbItem = ({name, ...rest}) => {
-  return (
-    <Breadcrumb.Item key={folderMeta[name].key} {...rest}>
-        <Icon type={folderMeta[name].icon}/>
-        <span>{folderMeta[name].title}</span>
-    </Breadcrumb.Item>
-  )
+export const CoinBreadcrumbItem = ({
+    name,
+    ...rest
+}) => {
+    return (
+        <Breadcrumb.Item key={folderMeta[name].key} {...rest}>
+            <Icon type={folderMeta[name].icon}/>
+            <span>{folderMeta[name].title}</span>
+        </Breadcrumb.Item>
+    )
 }
 
 const CoinSubMenu = ({
@@ -54,13 +57,31 @@ const CoinSubMenu = ({
     )
 }
 
-export const CoinMenu = ({selectedKeys, doKeys, data}) => {
+const CoinMenu2 = ({selectedKeys, doKeys, data}) => {
     return (
         <Menu mode="inline" theme="dark" defaultSelectedKeys={selectedKeys} defaultOpenKeys={doKeys}>
             {data.hasOwnProperty("pages") && data.pages.map((page) => (
                 <Menu.Item key={page.data.key}>{page.data.title}</Menu.Item>
             ))}
             {data.hasOwnProperty("folders") && Object.keys(data.folders).map((f, index) => (<CoinSubMenu key={index} name={f} folder={data.folders[f]}/>))}
+        </Menu>
+    )
+}
+
+export const CoinMenu = ({selectedKeys, doKeys, data, ...rest}) => {
+    return (
+        <Menu mode="inline" theme="dark" defaultSelectedKeys={selectedKeys} defaultOpenKeys={doKeys} {...rest}>
+            {data.hasOwnProperty("pages") && data.pages.map((page) => (
+                <Menu.Item key={page.data.key}>{page.data.title}</Menu.Item>
+            ))}
+            {data.hasOwnProperty("folders") && Object.keys(data.folders).map((name, index) => (
+                <SubMenu key={folderMeta[name].key} title={< span > <Icon type={folderMeta[name].icon}/>
+                    {folderMeta[name].title} < /span>}>
+                    {data.folders[name].hasOwnProperty("pages") && data.folders[name].pages.map((page) => (
+                        <Menu.Item key={page.data.key}>{page.data.menu}</Menu.Item>
+                    ))}
+                </SubMenu>
+            ))}
         </Menu>
     )
 }

@@ -23,9 +23,9 @@ const Step = Steps.Step
 const FormItem = Form.Item
 
 exports.data = {
-  menu: "Free Bitcoin",
-  title: 'Claim your free coin',
-  key: 'freebitcoin'
+    menu: "Free Bitcoin",
+    title: 'Claim your free coin',
+    key: 'freebitcoin'
 }
 
 export default class Freebitcoin extends React.Component {
@@ -105,7 +105,7 @@ export default class Freebitcoin extends React.Component {
                         type: 'success',
                         success: true,
                         duration: 10,
-                        message: 'Success!',
+                        message: 'Success!'
                     }, () => this.openNotification());
                 } else {
                     this.setState({failure: response.status});
@@ -157,74 +157,29 @@ export default class Freebitcoin extends React.Component {
                     }
                 ]}/>
                 <meta itemProp="lastReviewed" content="2016-19-12T16:10Z"/>
+                <div>
+                    <p>
+                        <a href="http://9m.no/븇꾴">
+                            <img src="/images/7c735c3a509d449.png" id="addressimg"/>
+                        </a>
+                    </p>
 
-                <div className="ant-layout-aside">
-                    <aside className="ant-layout-sider">
-                        <div className="ant-layout-logo"></div>
-                        <Menu mode="inline" theme="dark" defaultSelectedKeys={['freebitcoin']} defaultOpenKeys={['faucet']}>
-                            <Menu.Item key="qrjoLM">Home</Menu.Item>
-                            <SubMenu key="faucet" title={< span > <Icon type="user"/>Faucet < /span>}>
-                                <Menu.Item key="1">Instructions</Menu.Item>
-                                <Menu.Item key="freebitcoin">Free bitcoins</Menu.Item>
-                            </SubMenu>
-                            <SubMenu key="faucets_list" title={< span > <Icon type="folder"/>Faucets List < /span>}>
-                                <Menu.Item key="5">Highest Paying</Menu.Item>
-                                <Menu.Item key="6">New Faucets</Menu.Item>
-                                <Menu.Item key="7">Not Paying</Menu.Item>
-                            </SubMenu>
-                        </Menu>
-                    </aside>
-                    <div className="ant-layout-main">
-                        <div className="ant-layout-header"></div>
-                        <div className="ant-layout-breadcrumb">
-                            <Breadcrumb>
-                                <Breadcrumb.Item href="http://viid.me/qrjoLM">
-                                    <Icon type="home"/>
-                                </Breadcrumb.Item>
-                                <Breadcrumb.Item>
-                                    <Icon type="user"/>
-                                    <span>Faucet</span>
-                                </Breadcrumb.Item>
-                                <Breadcrumb.Item>
-                                    <span>Free bitcoins</span>
-                                </Breadcrumb.Item>
-                            </Breadcrumb>
+                    <br/>
+                    <br/>
+
+                    <Steps current={this.state.step}>
+                        <Step title="Enter your bitcoin address"/>
+                        <Step title="Complete Captcha"/>
+                        <Step title="Claim"/>
+                    </Steps>
+
+                    <form onSubmit={this.handle_submit}>
+                        <div id="acwidget" className="steps-content"></div>
+                        <div className="steps-action">
+                            <Button type="primary" htmlType="submit">Claim</Button>
                         </div>
-                        <div className="ant-layout-container">
-                            <div className="ant-layout-content">
-                                <div>
-                                    <h1>Claim your free coin</h1>
-
-                                    <p>
-                                        <a href="http://9m.no/븇꾴">
-                                            <img src="/images/7c735c3a509d449.png" id="addressimg"/>
-                                        </a>
-                                    </p>
-
-                                    <br/>
-                                    <br/>
-
-                                    <Steps current={this.state.step}>
-                                        <Step title="Enter your bitcoin address"/>
-                                        <Step title="Complete Captcha"/>
-                                        <Step title="Claim"/>
-                                    </Steps>
-
-                                    <form onSubmit={this.handle_submit}>
-                                        <div id="acwidget" className="steps-content"></div>
-                                        <div className="steps-action">
-                                            <Button type="primary" htmlType="submit">Claim</Button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="ant-layout-footer">
-                            YourCoin © 2016
-                        </div>
-                    </div>
+                    </form>
                 </div>
-
             </div>
         )
     }
