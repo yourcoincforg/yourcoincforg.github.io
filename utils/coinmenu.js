@@ -25,7 +25,7 @@ export const folderMeta = {
     },
     faucets: {
         key: 'faucets',
-        icon: "laptop",
+        icon: "bars",
         title: "Faucets List"
     }
 }

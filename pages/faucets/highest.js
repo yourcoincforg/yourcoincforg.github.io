@@ -175,7 +175,6 @@ export default class Highest extends React.Component {
                             <img src="/images/7c735c3a509d449.png" id="addressimg"/>
                         </a>
                     </p>
-
                     <Table columns={this.columns} pagination={{
                         showQuickJumper: true,
                         showSizeChanger: true

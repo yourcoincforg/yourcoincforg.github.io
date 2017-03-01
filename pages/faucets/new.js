@@ -5,9 +5,23 @@ import heads from '../../utils/head'
 import {newData} from '../../utils/newdata'
 import styles from './../index.css'
 import Helmet from 'react-helmet'
+import reqwest from 'reqwest'
 import {config} from 'config'
-import {Table, Icon, Button, notification} from 'antd'
+import {
+    Form,
+    Modal,
+    Table,
+    Icon,
+    Tooltip,
+    Input,
+    InputNumber,
+    Rate,
+    Button,
+    notification
+} from 'antd'
 import 'antd/dist/antd.less'
+
+const FormItem = Form.Item
 
 exports.data = {
     menu: "New",
@@ -16,12 +30,236 @@ exports.data = {
     published_time: '2017-10-01T12:10Z'
 }
 
+class FaucetForm extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            visible: props.visible,
+            confirmLoading: false,
+            message: 'Success!',
+            description: 'initial',
+            success: false,
+            type: 'success',
+            action: 'Close',
+            duration: 5,
+            rate_value: 0
+        };
+    }
+
+    handleOk = () => {
+        this.setState({
+            confirmLoading: true
+        }, () => {
+            this.handle_submit();
+        });
+    }
+
+    handleCancel = () => {
+        this.setState({visible: false});
+    }
+
+    handle_submit = () => {
+        //e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                this.createNew(values);
+                console.log('Received values of form: ', values);
+            } else {
+                this.setState({confirmLoading: false});
+            }
+        });
+    }
+
+    createNew = (values) => {
+
+        fetch(config.apiurl + 'faucet/new', {
+            headers: {
+                "Content-Type": "application/json",
+                'Accept': 'application/vnd.faucet.v1+json'
+            },
+            method: "POST",
+            body: values
+        }).then(response => {
+            console.log(response);
+            if (response.status === 202) {
+                this.setState({
+                    visible: false,
+                    confirmLoading: false
+                }, () => {
+                    this.props.onNotify({type: 'success', duration: 30, message: 'Success!', description: 'Your faucet have been submited and after moderation review will be included !', action: 'Ok'});
+                });
+            } else {
+                var error = new Error(response.statusText)
+                error.response = response
+                throw error
+            }
+        }).catch(error => {
+            console.log(error);
+            this.setState({
+                visible: false,
+                confirmLoading: false
+            }, () => {
+                this.props.onNotify({duration: 10, type: 'error', message: 'Error !', description: 'Try again later !', action: 'Ok'});
+            });
+        });
+
+    }
+
+    render() {
+        const {getFieldDecorator} = this.props.form;
+        const formItemLayout = {
+            labelCol: {
+                span: 6
+            },
+            wrapperCol: {
+                span: 14
+            }
+        };
+        return (
+            <Modal title="New Faucet" visible={this.state.visible} onOk={this.handleOk} confirmLoading={this.state.confirmLoading} onCancel={this.handleCancel}>
+                <Form onSubmit={this.handle_submit} method="post">
+                    <FormItem {...formItemLayout} label={(
+                        <span>
+                            Name&nbsp;
+                            <Tooltip title="Faucet Name">
+                                <Icon type="question-circle-o"/>
+                            </Tooltip>
+                        </span>
+                    )} hasFeedback>
+                        {getFieldDecorator('name', {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: 'Please input faucet name!'
+                                }
+                            ]
+                        })(
+                            <Input addonBefore={< Icon type = "user" />} autoComplete="username" id="name" name="name" type="text" placeholder="name"/>
+                        )}
+                    </FormItem>
+                    <FormItem {...formItemLayout} label={(
+                        <span>
+                            Interval&nbsp;
+                            <Tooltip title="Reload Interval">
+                                <Icon type="question-circle-o"/>
+                            </Tooltip>
+                        </span>
+                    )} hasFeedback>
+                        {getFieldDecorator('interval', {
+                            rules: [
+                                {
+                                    pattern: RegExp('^R\/P\\d{1,3}[HM]$'),
+                                    message: 'Must have the format R/Pd{1,3}[HM] !'
+                                }, {
+                                    required: true,
+                                    message: 'Please input Interval period!'
+                                }
+                            ]
+                        })(
+                            <Input addonBefore={< Icon type = "reload" />} id="interval" name="interval" type="text" placeholder="R/P20M"/>
+                        )}
+                    </FormItem>
+                    <FormItem {...formItemLayout} label={(
+                        <span>
+                            Payment&nbsp;
+                            <Tooltip title="Payment processor">
+                                <Icon type="question-circle-o"/>
+                            </Tooltip>
+                        </span>
+                    )} hasFeedback>
+                        {getFieldDecorator('Payment', {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: 'Please input Payment processor!'
+                                }
+                            ]
+                        })(
+                            <Input addonBefore={< Icon type = "credit-card" />} id="payment" name="payment" type="text" placeholder="Directly"/>
+                        )}
+                    </FormItem>
+                    <FormItem {...formItemLayout} label={(
+                        <span>
+                            Security&nbsp;
+                            <Tooltip title="Anti spam Security">
+                                <Icon type="question-circle-o"/>
+                            </Tooltip>
+                        </span>
+                    )} hasFeedback>
+                        {getFieldDecorator('Security', {rules: []})(
+                            <Input addonBefore={< Icon type = "lock" />} id="security" name="security" type="text" placeholder="ReCaptcha"/>
+                        )}
+                    </FormItem>
+                    <FormItem {...formItemLayout} label={(
+                        <span>
+                            Payout&nbsp;
+                            <Tooltip title="Payout amount">
+                                <Icon type="question-circle-o"/>
+                            </Tooltip>
+                        </span>
+                    )} hasFeedback>
+                        {getFieldDecorator('Payout', {rules: []})(
+                            <InputNumber addonBefore={< Icon type = "pay-circle-o" />} id="payout" name="payout" type="number" min={0} step={1.00}/>
+                        )}
+                    </FormItem>
+                    <FormItem {...formItemLayout} label={(
+                        <span>
+                            Cashout&nbsp;
+                            <Tooltip title="Withdraw minimal amount">
+                                <Icon type="question-circle-o"/>
+                            </Tooltip>
+                        </span>
+                    )} hasFeedback>
+                        {getFieldDecorator('Cashout', {rules: []})(
+                            <InputNumber addonBefore={< Icon type = "export" />} id="cashout" name="cashout" type="number" min={0} step={1.00}/>
+                        )}
+                    </FormItem>
+                    <FormItem {...formItemLayout} label={(
+                        <span>
+                            Coin&nbsp;
+                            <Tooltip title="Coin name">
+                                <Icon type="question-circle-o"/>
+                            </Tooltip>
+                        </span>
+                    )} hasFeedback>
+                        {getFieldDecorator('Coin', {rules: []})(
+                            <Input addonBefore={< Icon type = "pay-circle" />} id="coin" name="coin" type="text" placeholder="Bitcoin"/>
+                        )}
+                    </FormItem>
+                    <FormItem {...formItemLayout} label={(
+                        <span>
+                            Url&nbsp;
+                            <Tooltip title="Internet Url address">
+                                <Icon type="question-circle-o"/>
+                            </Tooltip>
+                        </span>
+                    )} hasFeedback>
+                        {getFieldDecorator('url', {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: 'Please input faucet url address!'
+                                }
+                            ]
+                        })(
+                            <Input addonBefore={< Icon type = "link" />} id="url" name="url" type="text" placeholder="https://www."/>
+                        )}
+                    </FormItem>
+                </Form>
+            </Modal>
+        )
+    }
+}
+
 export default class New extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
+            visible: false,
             info: {},
             message: 'Success!',
             description: 'initial',
@@ -51,6 +289,18 @@ export default class New extends React.Component {
         }, () => this.openNotification());
     }
 
+    handleNotification = ({action, message, description, duration, type}) => {
+        this.setState({
+            duration: duration,
+            success: false,
+            visible: false,
+            type: type,
+            message: message,
+            description: description,
+            action: action
+        }, () => this.openNotification());
+    }
+
     openNotification = () => {
         const key = `open${Date.now()}`;
         const btnClick = () => {
@@ -69,6 +319,10 @@ export default class New extends React.Component {
             onClose: this.handleRequestClose,
             duration: this.state.duration
         });
+    }
+
+    handleAdd = () => {
+        this.setState({visible: true});
     }
 
     columns = [
@@ -90,20 +344,21 @@ export default class New extends React.Component {
             title: 'Security',
             dataIndex: 'security',
             key: 'security',
-            sorter: (a, b) => a.payment.localeCompare(b.payment)
+            sorter: (a, b) => a.security.localeCompare(b.security)
         }, {
             title: 'Payout',
             dataIndex: 'payout',
             key: 'payout',
+            sorter: (a, b) => a.payout > b.payout
         }, {
             title: 'Cashout',
             dataIndex: 'cashout',
-            key: 'cashout',
+            key: 'cashout'
         }, {
             title: 'Coin',
             dataIndex: 'coin',
             key: 'coin',
-            sorter: (a, b) => a.payment.localeCompare(b.payment)
+            sorter: (a, b) => a.coin.localeCompare(b.coin)
         }, {
             title: '',
             dataIndex: 'url',
@@ -113,12 +368,13 @@ export default class New extends React.Component {
     ]
 
     render() {
+        FaucetForm = Form.create({})(FaucetForm);
         return (
             <div>
                 {heads()}
                 <Helmet link={[{
                         "rel": "canonical",
-                        "href": "https://www.yourcoin.cf/faucets/new",
+                        "href": "https://www.yourcoin.cf/faucets/new/",
                         "itemProp": "url"
                     }
                 ]} meta={[
@@ -139,7 +395,7 @@ export default class New extends React.Component {
                         "content": "https://www.yourcoin.cf/images/images2.jpg"
                     }, {
                         "name": "og:site_name",
-                        "content": "FaucetHub Highest Paying Faucets"
+                        "content": "YourCoin Highest Paying Faucets"
                     }, {
                         "name": "og:type",
                         "content": "article"
@@ -198,8 +454,10 @@ export default class New extends React.Component {
                             <img src="/images/7c735c3a509d449.png" id="addressimg"/>
                         </a>
                     </p>
-
                     <br/>
+                    <Button onClick={this.handleAdd} type="primary" icon="plus" size="large">Add New Faucet</Button>
+                    <br/>
+                    <FaucetForm visible={this.state.visible} onNotify={this.handleNotification}/>
                     <Table columns={this.columns} pagination={{
                         showQuickJumper: true,
                         showSizeChanger: true
