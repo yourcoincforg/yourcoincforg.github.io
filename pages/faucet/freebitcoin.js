@@ -52,7 +52,7 @@ export default class Freebitcoin extends React.Component {
             if (this.state.failure === 428) {
                 window.location = 'http://viid.me/qr47dE';
             } else {
-                window.location = 'http://viid.me/qt1rAb';
+                window.location = 'http://clkme.in/qUSqz6';
             }
         }
     }
@@ -86,18 +86,19 @@ export default class Freebitcoin extends React.Component {
             const adcopy_challenge = form.elements[1].value;
             const adcopy_response = form.elements[0].value;
 
-            fetch(config.apiurl + 'claim', {
+            fetch(config.apiurl, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/vnd.faucet.v1+json'
+                    'Accept': 'application/json'
                 },
                 method: "POST",
-                body: JSON.stringify({'adcopy_challenge': adcopy_challenge, 'adcopy_response': adcopy_response})
+                body: JSON.stringify({"method":"claim_new","params":[adcopy_challenge,adcopy_response],"id":1,"jsonrpc":"2.0"})
             }).then(response => {
                 console.log(response);
+                response.json().then(r => {
+                  console.log(r);
 
-                if (response.status === 202) {
-                    console.log('is 202 true')
+                if (response.status === 200 && r.result.status === "SuccessFull") {
                     this.setState({
                         description: 'You got a White CHIP !',
                         step: 2,
@@ -112,7 +113,7 @@ export default class Freebitcoin extends React.Component {
                     var error = new Error(response.statusText)
                     error.response = response
                     throw error
-                }
+                }})
 
             }).catch(error => {
                 console.log(error);
