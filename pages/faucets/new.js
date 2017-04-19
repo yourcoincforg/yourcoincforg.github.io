@@ -5,7 +5,6 @@ import heads from '../../utils/head'
 import {newData} from '../../utils/newdata'
 import styles from './../index.css'
 import Helmet from 'react-helmet'
-import reqwest from 'reqwest'
 import {config} from 'config'
 import {
     Form,

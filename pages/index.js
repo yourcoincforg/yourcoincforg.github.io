@@ -46,9 +46,9 @@ class AddressForm extends React.Component {
 
     handleRequestClose = () => {
         if (this.state.success) {
-            window.location = 'http://www.yourcoin.cf/freebitcoin/';
+            window.location = 'http://www.yourcoin.cf/faucet/freebitcoin/';
         } else {
-            window.location = 'https://www.yourcoin.cf/instructions/';
+            window.location = 'https://www.yourcoin.cf/faucet/instructions/';
         }
     }
 
@@ -102,9 +102,8 @@ class AddressForm extends React.Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             console.log(err);
             if (!err) {
-                console.log('Received values of form: ', values);
-                this.verifyAddress();
-                //this.handleNext();
+                //this.verifyAddress();
+                this.handleNext();
             } else {
                 this.setState({
                     type: 'warning',
@@ -121,32 +120,33 @@ class AddressForm extends React.Component {
     verifyAddress = () => {
         const s = this.props.form.getFieldValue('username');
 
-        fetch(config.apiurl + 'address', {
+        fetch(config.apiurl , {
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                'Accept': 'application/vnd.faucet.v1+json'
+                "Content-Type": "application/json",
+                'Accept': 'application/json'
             },
             method: "POST",
-            body: 'username=' + encodeURIComponent(s).replace(/%20/g, '+')
+            body: JSON.stringify({"method":"address_gen","params":[s],"id":1,"jsonrpc":"2.0"})
         }).then(response => {
             console.log(response);
-            if (response.status === 202) {
-
-                this.setState({
-                    step: 1,
-                    type: 'success',
-                    success: true,
-                    duration: 5,
-                    message: 'Success!',
-                    description: 'Redirecting to Step 2',
-                    action: 'Step 2'
-                }, () => this.openNotification());
-
-            } else {
-                var error = new Error(response.statusText)
-                error.response = response
-                throw error
-            }
+            response.json().then(r => {
+              console.log(r);
+              if (response.status === 200 && r.result.status === "SuccessFull") {
+                  this.setState({
+                      step: 1,
+                      type: 'success',
+                      success: true,
+                      duration: 5,
+                      message: 'Success!',
+                      description: 'Redirecting to Step 2',
+                      action: 'Step 2'
+                  }, () => this.openNotification());
+              } else {
+                  var error = new Error(response.statusText)
+                  error.response = response
+                  throw error
+              }
+            });
         }).catch(error => {
             console.log(error);
             this.setState({
