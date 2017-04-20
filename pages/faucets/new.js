@@ -63,8 +63,8 @@ class FaucetForm extends React.Component {
         //e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                this.createNew(values);
                 console.log('Received values of form: ', values);
+                this.createNew(values);
             } else {
                 this.setState({confirmLoading: false});
             }
@@ -73,16 +73,16 @@ class FaucetForm extends React.Component {
 
     createNew = (values) => {
 
-        fetch(config.apiurl + 'faucet/new', {
+        fetch(config.apiurl, {
             headers: {
                 "Content-Type": "application/json",
-                'Accept': 'application/vnd.faucet.v1+json'
+                'Accept': 'application/json'
             },
             method: "POST",
-            body: values
+            body: JSON.stringify({"method":"faucet_new","params":values,"id":1,"jsonrpc":"2.0"})
         }).then(response => {
             console.log(response);
-            if (response.status === 202) {
+            if (response.status === 200) {
                 this.setState({
                     visible: false,
                     confirmLoading: false
